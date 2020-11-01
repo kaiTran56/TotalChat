@@ -168,6 +168,15 @@ public class Decryption {
 		return null;
 	}
 
+	/*
+	 * @getNameRequestChat
+	 * 
+	 * @Description: tranfer the session of request to name of peer
+	 * 
+	 * @EX: <CHAT_REQ><PEER_NAME>Kai</PEER_NAME></CHAT_REQ>
+	 * 
+	 * -> Name: Kai
+	 */
 	public static String getNameRequestChat(String msg) {
 		System.out.println("--------[getNameRequestChat()]: " + msg);
 		Pattern checkRequest = Pattern.compile(Dictionary.CHAT_REQ_OPEN + Dictionary.PEER_NAME_OPEN + "[^<>]*"
@@ -180,7 +189,6 @@ public class Decryption {
 
 			String name = msg.substring(start, end);
 
-			System.out.println("--------[Name]: " + name);
 			return name;
 		}
 		return null;

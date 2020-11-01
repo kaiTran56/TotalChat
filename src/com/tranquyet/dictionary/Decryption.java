@@ -121,7 +121,7 @@ public class Decryption {
 	}
 
 	public static ArrayList<User> updatePeerOnline(ArrayList<User> peerList, String msg) {
-		System.out.println("[----UpdatePeerOnline]: ");
+		System.out.println("[----UpdatePeerOnline]: " + msg);
 		Pattern alive = Pattern.compile(Dictionary.STATUS_OPEN + Dictionary.SERVER_ONLINE + Dictionary.STATUS_CLOSE);
 		Pattern killUser = Pattern.compile(Dictionary.PEER_NAME_OPEN + "[^<>]*" + Dictionary.PEER_NAME_CLOSE);
 
@@ -131,7 +131,7 @@ public class Decryption {
 			if (findState.find())
 				return peerList;
 
-			System.out.println("[----peerList_02]: " + peerList.toString());
+			System.out.println("[----peerList_01]: " + peerList.toString());
 
 			findState = killUser.matcher(msg);
 			if (findState.find()) {
@@ -178,7 +178,7 @@ public class Decryption {
 	 * -> Name: Kai
 	 */
 	public static String getNameRequestChat(String msg) {
-		System.out.println("--------[getNameRequestChat()]: " + msg);
+
 		Pattern checkRequest = Pattern.compile(Dictionary.CHAT_REQ_OPEN + Dictionary.PEER_NAME_OPEN + "[^<>]*"
 				+ Dictionary.PEER_NAME_CLOSE + Dictionary.CHAT_REQ_CLOSE);
 		if (checkRequest.matcher(msg).matches()) {

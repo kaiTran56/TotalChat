@@ -137,22 +137,28 @@ public class LoginGui {
 				if (checkName.matcher(name).matches() && !IP.equals("")) {
 					try {
 						/*
-						 * @desc: automatically create the port of client 
+						 * @desc: automatically create the port of client
 						 * 
 						 */
 						Random rd = new Random();
 						int portPeer = 10000 + rd.nextInt() % 1000;
+
 						InetAddress ipServer = InetAddress.getByName(IP);
 						int portServer = Integer.parseInt("8080");
 						Socket socketClient = new Socket(ipServer, portServer);
 
 						String message = Encryption.getCreateAccount(name, Integer.toString(portPeer));
+
+						System.out.println("+++++++++++Message_01: " + message);
+						
 						ObjectOutputStream serverOutputStream = new ObjectOutputStream(socketClient.getOutputStream());
 						serverOutputStream.writeObject(message);
 						serverOutputStream.flush();
 						ObjectInputStream serverInputStream = new ObjectInputStream(socketClient.getInputStream());
 						message = (String) serverInputStream.readObject();
-
+						
+						System.out.println("++++++++++++[Message_02]: " + message);
+						
 						socketClient.close();
 						if (message.equals(Dictionary.SESSION_DENY)) {
 							lblError.setText("This name is Existed, please try again!");

@@ -186,7 +186,7 @@ public class LoginGui {
 		
 		JLabel lblPassword = new JLabel("Password:");
 		lblPassword.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 14));
-		lblPassword.setBounds(10, 164, 86, 38);
+		lblPassword.setBounds(10, 168, 86, 38);
 		frameLogin.getContentPane().add(lblPassword);
 		
 		txtPassword = new JTextField();

@@ -32,8 +32,11 @@ public class Client {
 
 	public Client(String arg, int arg1, String name, String dataUser) throws Exception {
 		IPserver = InetAddress.getByName(arg);
+		System.out.println("Client: <IPserver>" + IPserver);
 		nameUser = name;
+		System.out.println("Client: <nameUser>: " + nameUser);
 		portClient = arg1;
+		System.out.println("Client: <portClient>: " + portClient);
 		userList = Decryption.getAllUser(dataUser);
 		new Thread(() -> {
 			updateFriend();
@@ -57,6 +60,7 @@ public class Client {
 		serverOutputStream.flush();
 		serverInputStream = new ObjectInputStream(socketClient.getInputStream());
 		message = (String) serverInputStream.readObject();
+		System.out.println("Client: <request>: " + message);
 		serverInputStream.close();
 		userList = Decryption.getAllUser(message);
 		new Thread(() -> {
@@ -88,6 +92,7 @@ public class Client {
 		sendrequestChat.flush();
 		ObjectInputStream receivedChat = new ObjectInputStream(connclient.getInputStream());
 		String message = (String) receivedChat.readObject();
+		System.out.println("Client: <request>: " + message);
 		if (message.equals(Dictionary.CHAT_DENY)) {
 			FriendListGui.request("Your friend denied connect with you!", false);
 			connclient.close();

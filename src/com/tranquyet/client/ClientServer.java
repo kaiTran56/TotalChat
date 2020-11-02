@@ -18,7 +18,11 @@ public class ClientServer {
 
 	public ClientServer(String name) throws Exception {
 		username = name;
+		System.out.println("ClientServer: <name> :" + name);
+
 		port = Client.getPort();
+
+		System.out.println("ClientServer: <port>" + port);
 		serverPeer = new ServerSocket(port);
 		(new WaitPeerConnect()).start();
 	}

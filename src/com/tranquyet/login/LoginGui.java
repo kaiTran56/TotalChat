@@ -41,6 +41,7 @@ public class LoginGui {
 	 * 
 	 */
 	private Pattern checkName = Pattern.compile("[_a-zA-Z][_a-zA-Z0-9]*");
+	private JTextField txtPassword;
 
 	public static void main(String[] args) {
 		Decryption.createrBy();
@@ -96,7 +97,7 @@ public class LoginGui {
 		txtPort.setBounds(103, 60, 65, 28);
 		frameLogin.getContentPane().add(txtPort);
 
-		JLabel lblUserName = new JLabel("User Name:");
+		JLabel lblUserName = new JLabel("Username:");
 		lblUserName.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 14));
 		lblUserName.setBounds(10, 128, 86, 38);
 		frameLogin.getContentPane().add(lblUserName);
@@ -180,8 +181,19 @@ public class LoginGui {
 			}
 		});
 
-		btnLogin.setBounds(79, 189, 88, 28);
+		btnLogin.setBounds(80, 222, 88, 28);
 		frameLogin.getContentPane().add(btnLogin);
+		
+		JLabel lblPassword = new JLabel("Password:");
+		lblPassword.setFont(new Font("SansSerif", Font.BOLD | Font.ITALIC, 14));
+		lblPassword.setBounds(10, 164, 86, 38);
+		frameLogin.getContentPane().add(lblPassword);
+		
+		txtPassword = new JTextField();
+		txtPassword.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+		txtPassword.setColumns(10);
+		txtPassword.setBounds(103, 173, 133, 30);
+		frameLogin.getContentPane().add(txtPassword);
 		lblError.setVisible(false);
 
 	}

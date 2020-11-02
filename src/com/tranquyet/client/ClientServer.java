@@ -41,6 +41,7 @@ public class ClientServer {
 					connection = serverPeer.accept();
 					getRequest = new ObjectInputStream(connection.getInputStream());
 					String message = (String) getRequest.readObject();
+					System.out.println("NEW MESSAGE USER: " + message);
 					String name = Decryption.getNameRequestChat(message);
 					int res = FriendListGui.request("User: " + name + " want to connect with you !", true);
 					ObjectOutputStream send = new ObjectOutputStream(connection.getOutputStream());

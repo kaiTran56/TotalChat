@@ -379,6 +379,7 @@ public class ChatUserGui {
 						}
 
 						String message = Decryption.getMessage(messageObj);
+						System.out.println("New Message of User: " + message);
 						updateChatReceive(message);
 
 					}

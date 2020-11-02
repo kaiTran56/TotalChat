@@ -86,6 +86,7 @@ public class Encryption {
 		}
 		result += message;
 		setMessageInstance(result);
+		
 		String messageTemp = Dictionary.CHAT_MSG_OPEN + result + Dictionary.CHAT_MSG_CLOSE;
 
 		return messageTemp;

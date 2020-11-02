@@ -12,10 +12,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Inet4Address;
-import java.net.Socket;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -31,9 +27,7 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 
-import com.tranquyet.dictionary.Decryption;
 import com.tranquyet.dictionary.Dictionary;
-import com.tranquyet.dictionary.Encryption;
 
 public class FriendListGui {
 
@@ -52,9 +46,8 @@ public class FriendListGui {
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	private JTextField txtMessage;
-	private JTextPane txtDisplayChat;
+	private static JTextPane txtDisplayChat;
 	public boolean isStop = false, isSendFile = false, isReceiveFile = false;
-	private ChatRoom chat;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(() -> {
@@ -266,7 +259,7 @@ public class FriendListGui {
 				if (message.equals(""))
 					return;
 				try {
-					chat.sendMessage(Encryption.sendMessage(message));
+
 					updateChatSend(message);
 					txtMessage.setText("");
 				} catch (Exception e) {
@@ -314,7 +307,7 @@ public class FriendListGui {
 						return;
 					}
 					try {
-						chat.sendMessage(Encryption.sendMessage(message));
+						// chat.sendMessage(Encryption.sendMessage(message));
 						updateChatSend(message);
 						txtMessage.setText("");
 						txtMessage.setCaretPosition(0);
@@ -333,12 +326,12 @@ public class FriendListGui {
 		return Dictionary.show(frameMessage, message, type);
 	}
 
-	public void updateChatReceive(String message) throws BadLocationException, IOException {
+	public static void updateChatReceive(String message) throws BadLocationException, IOException {
 		appendToPane(txtDisplayChat,
 				"<div class='left' style='width: 40%; background-color: #f1f0f0;'>" + message + "</div>");
 	}
 
-	public void updateChatSend(String message) throws BadLocationException, IOException {
+	public static void updateChatSend(String message) throws BadLocationException, IOException {
 		appendToPane(txtDisplayChat,
 				"<table class='bang' style='color: white; clear:both; width: 100%;'>" + "<tr align='left'>"
 						+ "<td style='width: 59%; '></td>" + "<td style='width: 40%; background-color: #0084ff;'>"
@@ -357,60 +350,12 @@ public class FriendListGui {
 				+ "<td style='width: 59%;'></td>" + "<td style='width: 40%;'>" + message + "</td> </tr>" + "</table>");
 	}
 
-	private void appendToPane(JTextPane tp, String message) throws BadLocationException, IOException {
+	private static void appendToPane(JTextPane tp, String message) throws BadLocationException, IOException {
 		HTMLDocument docHtml = (HTMLDocument) tp.getDocument();
 		HTMLEditorKit editorKitHtml = (HTMLEditorKit) tp.getEditorKit();
 
 		editorKitHtml.insertHTML(docHtml, docHtml.getLength(), message, 0, 0, null);
 		tp.setCaretPosition(docHtml.getLength());
-
-	}
-
-	public class ChatRoom extends Thread {
-
-		private Socket connect;
-		private ObjectOutputStream outPeer;
-		private ObjectInputStream inPeer;
-
-		public ChatRoom() throws Exception {
-			connect = new Socket(Inet4Address.getLocalHost().getHostAddress(), 8080);
-
-		}
-
-		@Override
-		public void run() {
-			super.run();
-			// OutputStream out = null;
-			while (!isStop) {
-				try {
-					inPeer = new ObjectInputStream(connect.getInputStream());
-					Object obj = inPeer.readObject();
-					if (obj instanceof String) {
-						String messageObj = obj.toString();
-						isStop = true;
-						String message = Decryption.getMessage(messageObj);
-						updateChatReceive(message);
-
-					}
-				} catch (Exception e) {
-
-				}
-			}
-		}
-
-		// void send Message
-		public synchronized void sendMessage(Object obj) throws Exception {
-			outPeer = new ObjectOutputStream(connect.getOutputStream());
-			// only send text
-			if (obj instanceof String) {
-				String message = obj.toString();
-				outPeer.writeObject(message);
-				outPeer.flush();
-				if (isReceiveFile)
-					isReceiveFile = false;
-			}
-
-		}
 
 	}
 

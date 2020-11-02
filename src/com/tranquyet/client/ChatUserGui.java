@@ -215,6 +215,7 @@ public class ChatUserGui {
 				if (isStop) {
 					try {
 						updateChatSend(txtMessage.getText().toString());
+
 					} catch (BadLocationException | IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -364,13 +365,14 @@ public class ChatUserGui {
 						String messageObj = obj.toString();
 						if (messageObj.equals(Dictionary.CHAT_CLOSE)) {
 							isStop = true;
-							Dictionary.show(frameChatGui,
-									nameGuest + " closed chat with you! This windows will also be closed.", false);
-							try {
+							
+							 Dictionary.show(frameChatGui, nameGuest +
+							  " closed chat with you! ", false);
+							 try {
 								isStop = true;
-								frameChatGui.dispose();
+								//frameChatGui.dispose();
 								chat.sendMessage(Dictionary.CHAT_CLOSE);
-								chat.stopChat();
+								//chat.stopChat();
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -381,7 +383,7 @@ public class ChatUserGui {
 						String message = Decryption.getMessage(messageObj);
 						System.out.println("Message of User< " + nameGuest + ">: " + message);
 						updateChatReceive(message);
-
+						FriendListGui.updateChatReceive(nameGuest + ": " + message);
 					}
 				} catch (Exception e) {
 
@@ -398,8 +400,7 @@ public class ChatUserGui {
 				System.out.println("Client: <sendMessage>: ( " + nameUser + " to " + nameGuest + " : " + message);
 				outPeer.writeObject(message);
 				outPeer.flush();
-				if (isReceiveFile)
-					isReceiveFile = false;
+				FriendListGui.updateChatSend(nameUser + ": " + message);
 			}
 
 		}

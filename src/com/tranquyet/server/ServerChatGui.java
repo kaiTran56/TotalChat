@@ -191,7 +191,7 @@ public class ServerChatGui {
 
 	public static void updateMessage(String message) {
 		System.out.println("Message: " + message);
-		
+		txtMessage.append(message + "\n");
 		if (!message.equals("Server Starting....!") && !message.equals("Stop Server!")) {
 			txtMessage.append("______________________________________________" + "\n");
 		} else {

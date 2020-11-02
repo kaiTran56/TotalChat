@@ -89,6 +89,7 @@ public class FriendListGui {
 	public FriendListGui() throws Exception {
 		initialize();
 		clientNode = new Client(IPClient, portClient, nameUser, dataUser);
+
 	}
 
 	public static void updateFriendFriendTable(String message) {

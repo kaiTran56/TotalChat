@@ -190,7 +190,8 @@ public class ServerChatGui {
 	}
 
 	public static void updateMessage(String message) {
-		System.out.println("Message: "+message);
+		System.out.println("Message: " + message);
+		
 		if (!message.equals("Server Starting....!") && !message.equals("Stop Server!")) {
 			txtMessage.append("______________________________________________" + "\n");
 		} else {
@@ -198,14 +199,14 @@ public class ServerChatGui {
 		}
 
 	}
+
 	public static String getNumberUserOnline() {
 		return lblUserOnline.getText();
 	}
-	
+
 	/*
 	 * </Functions>
 	 * 
 	 */
-
 
 }

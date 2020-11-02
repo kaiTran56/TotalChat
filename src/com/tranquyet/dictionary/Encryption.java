@@ -17,6 +17,8 @@ public class Encryption {
 	 * @Description: negate the symbol <> and repeat {0,n}
 	 * 
 	 */
+	private static String messageInstance;
+	
 	private static Pattern checkMessage = Pattern.compile("[^<>]*[<>]");
 
 	/*
@@ -83,7 +85,7 @@ public class Encryption {
 
 		}
 		result += message;
-
+		setMessageInstance(result);
 		String messageTemp = Dictionary.CHAT_MSG_OPEN + result + Dictionary.CHAT_MSG_CLOSE;
 
 		return messageTemp;
@@ -94,6 +96,14 @@ public class Encryption {
 				+ Dictionary.CHAT_REQ_CLOSE;
 
 		return message;
+	}
+	
+	public static String getMessageInstance() {
+		return messageInstance;
+	}
+
+	public static void setMessageInstance(String messageInstance) {
+		Encryption.messageInstance = messageInstance;
 	}
 
 	/*

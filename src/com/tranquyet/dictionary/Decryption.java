@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import com.tranquyet.data.User;
 
 public class Decryption {
-
+	private static String messageOfUSer;
 	private static Pattern createAccount = Pattern
 			.compile(Dictionary.SESSION_OPEN + Dictionary.PEER_NAME_OPEN + ".*" + Dictionary.PEER_NAME_CLOSE
 					+ Dictionary.PORT_OPEN + ".*" + Dictionary.PORT_CLOSE + Dictionary.SESSION_CLOSE);
@@ -163,6 +163,7 @@ public class Decryption {
 			int begin = Dictionary.CHAT_MSG_OPEN.length();
 			int end = msg.length() - Dictionary.CHAT_MSG_CLOSE.length();
 			String message = msg.substring(begin, end);
+			setMessageOfUSer(message);
 			return message;
 		}
 		return null;
@@ -192,6 +193,14 @@ public class Decryption {
 			return name;
 		}
 		return null;
+	}
+
+	public static String getMessageOfUSer() {
+		return messageOfUSer;
+	}
+
+	public static void setMessageOfUSer(String message) {
+		messageOfUSer = message;
 	}
 
 	public static void createrBy() {

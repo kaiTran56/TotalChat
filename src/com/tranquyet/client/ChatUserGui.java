@@ -381,8 +381,8 @@ public class ChatUserGui {
 						}
 
 						String message = Decryption.getMessage(messageObj);
-						System.out.println("Message of User< " + nameGuest + ">: " + message);
 						updateChatReceive(message);
+						
 						FriendListGui.updateChatReceive(nameGuest + ": " + message);
 					}
 				} catch (Exception e) {
@@ -397,9 +397,10 @@ public class ChatUserGui {
 			// only send text
 			if (obj instanceof String) {
 				String message = obj.toString();
-				System.out.println("Client: <sendMessage>: ( " + nameUser + " to " + nameGuest + " : " + message);
+				
 				outPeer.writeObject(message);
 				outPeer.flush();
+				
 				FriendListGui.updateChatSend(nameUser + ": " + message);
 			}
 

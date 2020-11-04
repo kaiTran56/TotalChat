@@ -178,7 +178,15 @@ public class ChatUserGui {
 		btnSend.setBounds(270, 21, 50, 25);
 		btnSend.setBorder(new EmptyBorder(0, 0, 0, 0));
 		panelMessage.add(btnSend);
-
+		/*
+		 * @symbol <like>:
+		 * 
+		 * @Description: instead of using byte to convert image to binary, we can use
+		 * <img> tag in html to send message which contain the address of this symbol on
+		 * the system of ohter people
+		 * 
+		 * @tg
+		 */
 		JButton btnSendLike = new JButton("");
 		btnSendLike.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -365,14 +373,13 @@ public class ChatUserGui {
 						String messageObj = obj.toString();
 						if (messageObj.equals(Dictionary.CHAT_CLOSE)) {
 							isStop = true;
-							
-							 Dictionary.show(frameChatGui, nameGuest +
-							  " closed chat with you! ", false);
-							 try {
+
+							Dictionary.show(frameChatGui, nameGuest + " closed chat with you! ", false);
+							try {
 								isStop = true;
-								//frameChatGui.dispose();
+								// frameChatGui.dispose();
 								chat.sendMessage(Dictionary.CHAT_CLOSE);
-								//chat.stopChat();
+								// chat.stopChat();
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
@@ -382,8 +389,8 @@ public class ChatUserGui {
 
 						String message = Decryption.getMessage(messageObj);
 						updateChatReceive(message);
-						
-						FriendListGui.updateChatReceive(nameGuest + ": " + message);
+
+						// FriendListGui.updateChatReceive(nameGuest + ": " + message);
 					}
 				} catch (Exception e) {
 
@@ -397,11 +404,11 @@ public class ChatUserGui {
 			// only send text
 			if (obj instanceof String) {
 				String message = obj.toString();
-				
+
 				outPeer.writeObject(message);
 				outPeer.flush();
-				
-				FriendListGui.updateChatSend(nameUser + ": " + message);
+
+				FriendListGui.updateChatSend(nameUser + ": " + message + " to " + nameGuest);
 			}
 
 		}

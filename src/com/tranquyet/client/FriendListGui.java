@@ -7,8 +7,6 @@ import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -45,7 +43,7 @@ public class FriendListGui {
 	private JLabel lblUsername;
 	private JPanel panel;
 	private JScrollPane scrollPane;
-	private JTextField txtMessage;
+	public JTextField txtMessage;
 	private static JTextPane txtDisplayChat;
 	public boolean isStop = false, isSendFile = false, isReceiveFile = false;
 
@@ -132,6 +130,7 @@ public class FriendListGui {
 		btnChat.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
+
 				String name = txtNameFriend.getText();
 				if (name.equals("") || Client.userList == null) {
 					Dictionary.show(frameFriendTable, "Invaild username", false);
@@ -141,6 +140,10 @@ public class FriendListGui {
 					Dictionary.show(frameFriendTable, "This software doesn't support chat yourself function", false);
 					return;
 				}
+
+				/*
+				 * @Test
+				 */
 
 				Client.userList.stream().forEach(p -> {
 					if (p.getName().equals(name)) {
@@ -217,10 +220,6 @@ public class FriendListGui {
 		panel.setBounds(131, 11, 145, 38);
 		frameFriendTable.getContentPane().add(panel);
 
-		scrollPane = new JScrollPane();
-		scrollPane.setBounds(12, 89, 275, 266);
-		frameFriendTable.getContentPane().add(scrollPane);
-
 		txtDisplayChat = new JTextPane();
 		txtDisplayChat.setBackground(SystemColor.scrollbar);
 		txtDisplayChat.setFont(new Font("Segoe UI", Font.PLAIN, 14));
@@ -234,90 +233,61 @@ public class FriendListGui {
 		frameFriendTable.getContentPane().add(txtDisplayChat);
 
 		scrollPane = new JScrollPane(txtDisplayChat);
-		scrollPane.setBounds(13, 91, 278, 272);
+		scrollPane.setBounds(12, 92, 275, 318);
 		frameFriendTable.getContentPane().add(scrollPane);
 
-		JButton btnSend = new JButton("Send");
-		btnSend.setFont(new Font("Segoe UI", Font.BOLD, 12));
-		btnSend.setBounds(224, 368, 63, 44);
-		frameFriendTable.getContentPane().add(btnSend);
-		btnSend.addActionListener(new ActionListener() {
+		/*
+		 * JButton btnSend = new JButton("Send"); btnSend.setFont(new Font("Segoe UI",
+		 * Font.BOLD, 12)); btnSend.setBounds(224, 368, 63, 44);
+		 * frameFriendTable.getContentPane().add(btnSend); btnSend.addActionListener(new
+		 * ActionListener() {
+		 * 
+		 * public void actionPerformed(ActionEvent arg0) { String message =
+		 * txtMessage.getText(); if (isStop) { try { String messageTemp =
+		 * Encryption.sendMessage(nameUser + ": " + message); String messageTemp2 =
+		 * Decryption.getMessage(messageTemp);
+		 * 
+		 * System.out.println("Encryption Message: " + messageTemp + "/n --->>" +
+		 * " Decryption Message: " + messageTemp2); ; User.setMessage(message);
+		 * updateChatSend(nameUser + ": " + message); } catch (BadLocationException |
+		 * IOException e) { // TODO Auto-generated catch block e.printStackTrace(); }
+		 * txtMessage.setText(""); // reset text Send return; }
+		 * 
+		 * if (message.equals("")) return; try { String messageTemp =
+		 * Encryption.sendMessage(nameUser + ": " + message); String messageTemp2 =
+		 * Decryption.getMessage(messageTemp);
+		 * 
+		 * System.out.println( "Encryption Message: " + messageTemp + " --->>" +
+		 * " Decryption Message: " + messageTemp2); User.setMessage(message);
+		 * updateChatSend(nameUser + ": " + message); txtMessage.setText(""); } catch
+		 * (Exception e) { e.printStackTrace(); } } });
+		 */
 
-			public void actionPerformed(ActionEvent arg0) {
-
-				if (isStop) {
-					try {
-						updateChatSend(txtMessage.getText().toString());
-					} catch (BadLocationException | IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					txtMessage.setText(""); // reset text Send
-					return;
-				}
-				String message = txtMessage.getText();
-				if (message.equals(""))
-					return;
-				try {
-
-					updateChatSend(message);
-					txtMessage.setText("");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-
-		txtMessage = new JTextField();
-		txtMessage.setBounds(12, 366, 206, 44);
-		frameFriendTable.getContentPane().add(txtMessage);
-		txtMessage.setColumns(10);
-		txtMessage.addKeyListener(new KeyListener() {
-
-			@Override
-			public void keyTyped(KeyEvent arg0) {
-
-			}
-
-			@Override
-			public void keyReleased(KeyEvent arg0) {
-
-			}
-
-			@Override
-			public void keyPressed(KeyEvent arg0) {
-				if (arg0.getKeyCode() == KeyEvent.VK_ENTER) {
-					String message = txtMessage.getText();
-					if (isStop) {
-						try {
-							updateChatSend(txtMessage.getText().toString());
-						} catch (BadLocationException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						txtMessage.setText("");
-						return;
-					}
-					if (message.equals("")) {
-						txtMessage.setText("");
-						txtMessage.setCaretPosition(0);
-						return;
-					}
-					try {
-						// chat.sendMessage(Encryption.sendMessage(message));
-						updateChatSend(message);
-						txtMessage.setText("");
-						txtMessage.setCaretPosition(0);
-					} catch (Exception e) {
-						txtMessage.setText("");
-						txtMessage.setCaretPosition(0);
-					}
-				}
-			}
-		});
+		/*
+		 * txtMessage = new JTextField(); txtMessage.setBounds(12, 366, 206, 44);
+		 * frameFriendTable.getContentPane().add(txtMessage); txtMessage.setColumns(10);
+		 * txtMessage.addKeyListener(new KeyListener() {
+		 * 
+		 * @Override public void keyTyped(KeyEvent arg0) {
+		 * 
+		 * }
+		 * 
+		 * @Override public void keyReleased(KeyEvent arg0) {
+		 * 
+		 * }
+		 * 
+		 * @Override public void keyPressed(KeyEvent arg0) { if (arg0.getKeyCode() ==
+		 * KeyEvent.VK_ENTER) { String message = txtMessage.getText(); if (isStop) { try
+		 * { updateChatSend(txtMessage.getText().toString()); } catch
+		 * (BadLocationException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); } catch (IOException e) { // TODO Auto-generated catch
+		 * block e.printStackTrace(); } txtMessage.setText(""); return; } if
+		 * (message.equals("")) { txtMessage.setText("");
+		 * txtMessage.setCaretPosition(0); return; } try { //
+		 * chat.sendMessage(Encryption.sendMessage(message)); updateChatSend(message);
+		 * txtMessage.setText(""); txtMessage.setCaretPosition(0); } catch (Exception e)
+		 * { txtMessage.setText(""); txtMessage.setCaretPosition(0); } } } });
+		 */
 
 	}
 
@@ -336,6 +306,7 @@ public class FriendListGui {
 				"<table class='bang' style='color: white; clear:both; width: 100%;'>" + "<tr align='left'>"
 						+ "<td style='width: 59%; '></td>" + "<td style='width: 40%; background-color: #0084ff;'>"
 						+ message + "</td> </tr>" + "</table>");
+
 	}
 
 	public void updateChatNotify(String message) throws BadLocationException, IOException {

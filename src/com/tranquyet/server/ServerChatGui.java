@@ -162,7 +162,7 @@ public class ServerChatGui {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					server = new ServerCode(8080);
+					server = new ServerCode(port);
 					ServerChatGui.updateMessage("Server Starting....!");
 					lblStatus.setText("<html><font color='green'>Online</font></html>");
 				} catch (Exception e) {

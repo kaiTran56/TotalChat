@@ -33,16 +33,18 @@ public class Client {
 	public Client(String arg, int arg1, String name, String dataUser) throws Exception {
 		IPserver = InetAddress.getByName(arg);
 		System.out.println("Client: <IPserver>" + IPserver);
-		nameUser = name;
-		System.out.println("Client: <nameUser>: " + nameUser);
+		setNameUser(name);
+		System.out.println("Client: <nameUser>: " + getNameUser());
 		portClient = arg1;
 		System.out.println("Client: <portClient>: " + portClient);
+
 		userList = Decryption.getAllUser(dataUser);
+
 		new Thread(() -> {
 			updateFriend();
 
 		}).start();
-		server = new ClientServer(nameUser);
+		server = new ClientServer(getNameUser());
 		(new Request()).start();
 	}
 
@@ -54,7 +56,7 @@ public class Client {
 		socketClient = new Socket();
 		SocketAddress addressServer = new InetSocketAddress(IPserver, portServer);
 		socketClient.connect(addressServer);
-		String message = Encryption.sendRequest(nameUser);
+		String message = Encryption.sendRequest(getNameUser());
 		serverOutputStream = new ObjectOutputStream(socketClient.getOutputStream());
 		serverOutputStream.writeObject(message);
 		serverOutputStream.flush();
@@ -63,6 +65,8 @@ public class Client {
 		System.out.println("Client: <request>: " + message);
 		serverInputStream.close();
 		userList = Decryption.getAllUser(message);
+		System.out.println("222222222222222getAllUserList: " + userList.toString());
+
 		new Thread(() -> {
 
 			updateFriend();
@@ -86,19 +90,21 @@ public class Client {
 	}
 
 	public void intialNewChat(String IP, int host, String guest) throws Exception {
-		final Socket connclient = new Socket(InetAddress.getByName(IP), host);
+		
+		
+		Socket connclient = new Socket(InetAddress.getByName(IP), host);
 		ObjectOutputStream sendrequestChat = new ObjectOutputStream(connclient.getOutputStream());
-		sendrequestChat.writeObject(Encryption.sendRequestChat(nameUser));
+		sendrequestChat.writeObject(Encryption.sendRequestChat(getNameUser()));
 		sendrequestChat.flush();
 		ObjectInputStream receivedChat = new ObjectInputStream(connclient.getInputStream());
 		String message = (String) receivedChat.readObject();
-		System.out.println("Client: <request>: " + message);
+		System.out.println("Client: <initalNewChat>: " + message);
 		if (message.equals(Dictionary.CHAT_DENY)) {
 			FriendListGui.request("Your friend denied connect with you!", false);
 			connclient.close();
 			return;
 		}
-		new ChatUserGui(nameUser, guest, connclient, portClient);
+		new ChatUserGui(getNameUser(), guest, connclient, portClient);
 
 	}
 
@@ -107,7 +113,7 @@ public class Client {
 		socketClient = new Socket();
 		SocketAddress addressServer = new InetSocketAddress(IPserver, portServer);
 		socketClient.connect(addressServer);
-		String message = Encryption.exit(nameUser);
+		String message = Encryption.exit(getNameUser());
 		serverOutputStream = new ObjectOutputStream(socketClient.getOutputStream());
 		serverOutputStream.writeObject(message);
 		serverOutputStream.flush();
@@ -119,9 +125,17 @@ public class Client {
 
 		FriendListGui.resetList();
 		userList.stream().forEach(p -> {
-			if (!p.getName().equals(nameUser)) {
+			if (!p.getName().equals(getNameUser())) {
 				FriendListGui.updateFriendFriendTable(p.getName());
 			}
 		});
+	}
+
+	public String getNameUser() {
+		return nameUser;
+	}
+
+	public void setNameUser(String nameUser) {
+		this.nameUser = nameUser;
 	}
 }

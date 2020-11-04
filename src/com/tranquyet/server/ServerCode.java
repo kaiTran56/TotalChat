@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import com.tranquyet.data.User;
 import com.tranquyet.dictionary.Decryption;
 import com.tranquyet.dictionary.Dictionary;
-import com.tranquyet.dictionary.Encryption;
 
 public class ServerCode {
 
@@ -127,9 +126,6 @@ public class ServerCode {
 
 		ArrayList<String> getData = Decryption.getUser(msg);
 		System.out.println("getData ArrayList: " + getData);
-
-		System.out.println("MESS_01: " + Decryption.getMessageOfUSer());
-		System.out.println("MESS_02: " + Encryption.getMessageInstance());
 
 		ServerChatGui.updateMessage(msg);
 		if (getData != null) {

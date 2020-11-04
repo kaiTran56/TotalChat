@@ -114,6 +114,7 @@ public class Decryption {
 				 * 
 				 */
 				user.add(dataPeer);
+
 			}
 		} else
 			return null;
@@ -163,7 +164,8 @@ public class Decryption {
 			int begin = Dictionary.CHAT_MSG_OPEN.length();
 			int end = msg.length() - Dictionary.CHAT_MSG_CLOSE.length();
 			String message = msg.substring(begin, end);
-			setMessageOfUSer(message);
+
+			
 			return message;
 		}
 		return null;
